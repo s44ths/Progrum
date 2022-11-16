@@ -1,0 +1,145 @@
+
+CREATE TABLE Bans
+(
+	ban_id               INTEGER NOT NULL,
+	banned_id            INTEGER NOT NULL,
+	moder_id             INTEGER NOT NULL,
+	BlockEnd             DATETIME NOT NULL,
+	Explaination         TINYTEXT NOT NULL
+);
+
+
+
+ALTER TABLE Bans
+ADD PRIMARY KEY (ban_id);
+ALTER TABLE  `Bans` CHANGE  `ban_id`  `ban_id` INTEGER AUTO_INCREMENT;
+
+
+
+CREATE TABLE Comments
+(
+	com_id               INTEGER NOT NULL,
+	ComContent           TEXT NOT NULL,
+	ComDate              DATETIME NOT NULL,
+	post_id              INTEGER NOT NULL,
+	u_id                 INTEGER NOT NULL
+);
+
+
+
+ALTER TABLE Comments
+ADD PRIMARY KEY (com_id);
+ALTER TABLE  `Comments` CHANGE  `com_id`  `com_id` INTEGER AUTO_INCREMENT;
+
+
+
+CREATE TABLE ForumPosts
+(
+	post_id              INTEGER NOT NULL,
+	Title                VARCHAR(45) NOT NULL,
+	Content              TEXT NOT NULL,
+	PostDate             DATETIME NOT NULL,
+	LastComment          DATETIME NOT NULL,
+	topic_id             INTEGER NOT NULL,
+	u_id                 INTEGER NOT NULL,
+	isClosed             TINYINT NOT NULL
+);
+
+
+
+ALTER TABLE ForumPosts
+ADD PRIMARY KEY (post_id);
+ALTER TABLE  `ForumPosts` CHANGE  `post_id`  `post_id` INTEGER AUTO_INCREMENT;
+
+
+
+CREATE TABLE GlobalTopics
+(
+	topic_id             INTEGER NOT NULL,
+	Name                 VARCHAR(20) NOT NULL
+);
+
+
+
+ALTER TABLE GlobalTopics
+ADD PRIMARY KEY (topic_id);
+ALTER TABLE  `GlobalTopics` CHANGE  `topic_id`  `topic_id` INTEGER AUTO_INCREMENT;
+
+
+
+CREATE TABLE Message
+(
+	m_id                 INTEGER NOT NULL,
+	Title                VARCHAR(30) NOT NULL,
+	Content              TEXT NOT NULL,
+	isRead               TINYINT NOT NULL,
+	u_id_s               INTEGER NOT NULL,
+	u_id_r               INTEGER NOT NULL,
+	MessageSent          DATETIME NOT NULL
+);
+
+
+
+ALTER TABLE Message
+ADD PRIMARY KEY (m_id);
+ALTER TABLE  `Message` CHANGE  `m_id`  `m_id` INTEGER AUTO_INCREMENT;
+
+
+
+CREATE TABLE User
+(
+	u_id                 INTEGER NOT NULL,
+	uLogin               VARCHAR(15) NOT NULL,
+	uPassword            VARCHAR(50) NOT NULL,
+	Moder                TINYINT NOT NULL,
+	Avatar               INTEGER NOT NULL,
+	LastSeen             DATETIME NOT NULL
+);
+
+
+
+ALTER TABLE User
+ADD PRIMARY KEY (u_id);
+ALTER TABLE  `User` CHANGE  `u_id`  `u_id` INTEGER AUTO_INCREMENT;
+
+
+
+ALTER TABLE Bans
+ADD FOREIGN KEY R_39 (banned_id) REFERENCES User (u_id);
+
+
+
+ALTER TABLE Bans
+ADD FOREIGN KEY R_41 (moder_id) REFERENCES User (u_id);
+
+
+
+ALTER TABLE Comments
+ADD FOREIGN KEY R_24 (post_id) REFERENCES ForumPosts (post_id);
+
+
+
+ALTER TABLE Comments
+ADD FOREIGN KEY R_26 (u_id) REFERENCES User (u_id);
+
+
+
+ALTER TABLE ForumPosts
+ADD FOREIGN KEY R_23 (topic_id) REFERENCES GlobalTopics (topic_id);
+
+
+
+ALTER TABLE ForumPosts
+ADD FOREIGN KEY R_25 (u_id) REFERENCES User (u_id);
+
+
+
+ALTER TABLE Message
+ADD FOREIGN KEY R_27 (u_id_s) REFERENCES User (u_id);
+
+
+
+ALTER TABLE Message
+ADD FOREIGN KEY R_30 (u_id_r) REFERENCES User (u_id);
+
+
